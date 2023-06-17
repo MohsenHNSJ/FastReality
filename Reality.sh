@@ -7,7 +7,7 @@ echo "Version 0.5.2"
 # We need to install 'unzip' package to extract zip files
 # This installation must run without confirmation (-y)
 sudo apt update
-sudo apt -qq -y install expect unzip openssl
+sudo apt -qq -y install expect unzip openssl sshpass
 
 # We generate a random name for the new user
 choose() { echo ${1:RANDOM%${#1}:1} $RANDOM; }
@@ -39,14 +39,17 @@ chpasswd <<<"$username:$password"
 # We grant root privileges to the new user
 usermod -aG sudo $username
 
+# We now switch to the new user
+sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
+
 # We save the new user credentials to use in expect command
-tempusername=$username
-export tempusername
-temppassword=$password
-export temppassword
+# tempusername=$username
+# export tempusername
+# temppassword=$password
+# export temppassword
 
 # We now switch to the new user
-expect -c 'spawn su $::env(tempusername); expect "Password :"; send "$::env(temppassword)\n"; interact'
+# expect -c 'spawn su $::env(tempusername); expect "Password :"; send "$::env(temppassword)\n"; interact'
 
 # We provide password to 'sudo' command and open port 443
 echo $password | sudo -S ufw allow 443
