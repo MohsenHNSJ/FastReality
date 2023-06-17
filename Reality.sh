@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Version 0.5.1"
+echo "Version 0.5.2"
 
 # We update 'apt' repository 
 # We need to install 'expect' package to switch user non-interactivly
@@ -39,11 +39,14 @@ chpasswd <<<"$username:$password"
 # We grant root privileges to the new user
 usermod -aG sudo $username
 
+# We save the new user credentials to use in expect command
 tempusername=$username
 export tempusername
+temppassword=$password
+export temppassword
 
 # We now switch to the new user
-expect -c 'spawn su $::env(tempusername); expect "Password :"; send "$password\n"; interact'
+expect -c 'spawn su $::env(tempusername); expect "Password :"; send "$::env(temppassword)\n"; interact'
 
 # We provide password to 'sudo' command and open port 443
 echo $password | sudo -S ufw allow 443
