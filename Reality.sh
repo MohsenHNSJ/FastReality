@@ -7,7 +7,7 @@ echo "Version 0.2"
 # We need to install 'unzip' package to extract zip files
 # This installation must run without confirmation (-y)
 sudo apt update
-sudo apt install expect unzip -y
+sudo apt -qq -y install expect unzip openssl
 
 # We generate a random name for the new user
 choose() { echo ${1:RANDOM%${#1}:1} $RANDOM; }
