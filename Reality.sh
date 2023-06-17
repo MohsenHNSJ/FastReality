@@ -44,7 +44,7 @@ usermod -aG sudo $username
 set usernametoswitch $username
 
 # We now switch to the new user
-expect 'spawn su $usernametoswitch; expect "Password :"; send "$password\n"; interact'
+expect -c 'spawn su $usernametoswitch; expect "Password :"; send "$password\n"; interact'
 
 # We provide password to 'sudo' command and open port 443
 echo $password | sudo -S ufw allow 443
