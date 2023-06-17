@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Version 0.5.4"
+echo "Version 0.5.7"
 
 # We update 'apt' repository 
 # We need to install 'expect' package to switch user non-interactivly
@@ -40,18 +40,17 @@ chpasswd <<<"$username:$password"
 usermod -aG sudo $username
 
 # We save the new user credentials to use after switching user
-sudo mkdir /tempfolder/temp
+sudo mkdir /tempfolder
 
 sudo groupadd sharedusers
 
-sudo chgrp -R sharedusers /tempfolder/temp
-sudo chmod -R 2775 /tempfolder/temp
+sudo chgrp -R sharedusers /tempfolder
+sudo chmod -R 2775 /tempfolder
 
-useradd -D -g sharedusers root
 useradd -D -g sharedusers $username
 
-echo $username > /tempfolder/temp/tempusername.txt
-echo $password > /tempfolder/temp/temppassword.txt
+echo $username > /tempfolder/tempusername.txt
+echo $password > /tempfolder/temppassword.txt
 
 # We now switch to the new user
 sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
