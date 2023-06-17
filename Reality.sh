@@ -40,8 +40,11 @@ chpasswd <<<"$username:$password"
 # We grant root privileges to the new user
 usermod -aG sudo $username
 
+# We set a variable to use it in the expect command
+set usernametoswitch $username
+
 # We now switch to the new user
-expect -c 'spawn su $username; expect "Password :"; send "$password\n"; interact'
+expect 'spawn su $usernametoswitch; expect "Password :"; send "$password\n"; interact'
 
 # We provide password to 'sudo' command and open port 443
 echo $password | sudo -S ufw allow 443
