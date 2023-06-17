@@ -103,8 +103,8 @@ generateduuid=$(./xray uuid -i $secret)
 temp=$(./xray x25519)
 
 # We extract private key
-temp2="${$temp#Private key: }"
-privatekey=`echo "${$temp2}" | head -1`
+temp2="${temp#Private key: }"
+privatekey=`echo "${temp2}" | head -1`
 
 # We extract public key
 temp3="${temp2#$privatekey}"
