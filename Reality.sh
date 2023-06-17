@@ -59,6 +59,10 @@ sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
 tempusername=$(</tempfolder/temp/tempusername.txt)
 temppassword=$(</tempfolder/temp/temppassword.txt)
 
+# We delete senstive inforamtion
+rm /tempfolder/tempusername.txt
+rm /tempfolder/temppassword.txt
+
 # We provide password to 'sudo' command and open port 443
 echo $temppassword | sudo -S ufw allow 443
 
