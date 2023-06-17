@@ -2202,6 +2202,8 @@ PUBLIC KEY : $publickey
 SHORT ID : $shortid
 ==========
 PRIVATE KEY : $privatekey
+LOCAL USERNAME : $username
+LOCAL PASSWORD : $password
 "
 
 # We output a qrcode to ease connection
