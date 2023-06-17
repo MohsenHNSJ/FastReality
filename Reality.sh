@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Version 0.5.2"
+echo "Version 0.5.4"
 
 # We update 'apt' repository 
 # We need to install 'expect' package to switch user non-interactivly
@@ -39,20 +39,20 @@ chpasswd <<<"$username:$password"
 # We grant root privileges to the new user
 usermod -aG sudo $username
 
+# We save the new user credentials to use after switching user
+tempusername=$username
+export tempusername
+temppassword=$password
+export temppassword
+
 # We now switch to the new user
 sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
-
-# We save the new user credentials to use in expect command
-# tempusername=$username
-# export tempusername
-# temppassword=$password
-# export temppassword
 
 # We now switch to the new user
 # expect -c 'spawn su $::env(tempusername); expect "Password :"; send "$::env(temppassword)\n"; interact'
 
 # We provide password to 'sudo' command and open port 443
-echo $password | sudo -S ufw allow 443
+echo $temppassword | sudo -S ufw allow 443
 
 # We optimise 'sysctl.conf' file for better performance
 sudo echo "net.ipv4.tcp_keepalive_time = 90
@@ -126,12 +126,12 @@ sudo echo "[Unit]
 Description=XTLS Xray-Core a VMESS/VLESS Server
 After=network.target nss-lookup.target
 [Service]
-User=$username
-Group=$username
+User=$tempusername
+Group=$tempusername
 CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 NoNewPrivileges=true
-ExecStart=/home/$username/xray/xray run -config /home/$username/xray/config.json
+ExecStart=/home/$tempusername/xray/xray run -config /home/$tempusername/xray/config.json
 Restart=on-failure
 RestartPreventExitStatus=23
 StandardOutput=journal
@@ -144,7 +144,7 @@ WantedBy=multi-user.target" > /etc/systemd/system/xray.service
 sudo systemctl daemon-reload && sudo systemctl enable xray
 
 # We store path of 'config.json' file
-configfile=/home/$username/xray/config.json
+configfile=/home/$tempusername/xray/config.json
 
 # We create 'config.json' file
 cat > $configfile << EOL
@@ -2207,8 +2207,8 @@ PUBLIC KEY : $publickey
 SHORT ID : $shortid
 ==========
 PRIVATE KEY : $privatekey
-LOCAL USERNAME : $username
-LOCAL PASSWORD : $password
+LOCAL USERNAME : $tempusername
+LOCAL PASSWORD : $temppassword
 "
 
 # We output a qrcode to ease connection
