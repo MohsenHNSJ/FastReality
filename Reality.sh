@@ -40,16 +40,25 @@ chpasswd <<<"$username:$password"
 usermod -aG sudo $username
 
 # We save the new user credentials to use after switching user
-tempusername=$username
-export tempusername
-temppassword=$password
-export temppassword
+sudo mkdir /tempfolder/temp
+
+sudo groupadd sharedusers
+
+sudo chgrp -R sharedusers /tempfolder/temp
+sudo chmod -R 2775 /tempfolder/temp
+
+useradd -D -g sharedusers root
+useradd -D -g sharedusers $username
+
+echo $username > /tempfolder/temp/tempusername.txt
+echo $password > /tempfolder/temp/temppassword.txt
 
 # We now switch to the new user
 sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
 
-# We now switch to the new user
-# expect -c 'spawn su $::env(tempusername); expect "Password :"; send "$::env(temppassword)\n"; interact'
+# We read the saved credentials
+tempusername=$(</tempfolder/temp/tempusername.txt)
+temppassword=$(</tempfolder/temp/temppassword.txt)
 
 # We provide password to 'sudo' command and open port 443
 echo $temppassword | sudo -S ufw allow 443
