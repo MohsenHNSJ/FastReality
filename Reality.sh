@@ -11,11 +11,10 @@ sudo apt -qq -y install expect unzip openssl
 
 # We generate a random name for the new user
 choose() { echo ${1:RANDOM%${#1}:1} $RANDOM; }
-username="$({ choose '123456789'
-  choose 'abcdefghijklmnopqrstuvwxyz'
-  for i in $( seq 1 $(( 8 + RANDOM % 4 )) )
+username="$({ choose 'abcdefghijklmnopqrstuvwxyz'
+  for i in $( seq 1 $(( 6 + RANDOM % 4 )) )
      do
-        choose '123456789abcdefghijklmnopqrstuvwxyz'
+        choose 'abcdefghijklmnopqrstuvwxyz'
      done
  } | sort -R | awk '{printf "%s",$1}')"
 
