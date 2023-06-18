@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Version 0.6.3
+echo "Version 0.6.4"
 
 # We update 'apt' repository 
 # We need to install 'expect' package to switch user non-interactivly
