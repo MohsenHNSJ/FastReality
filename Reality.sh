@@ -12,7 +12,7 @@ Check out the github page, contribute and suggest ideas/bugs/improvments.
 
 This script uses the xray 1.8.1 version!
 ========================
-| Script version 0.8.1 |
+| Script version 0.8.2 |
 ========================"
 
 # We want to create a folder to store logs of each action for easier debug in case of an error
