@@ -1,13 +1,34 @@
 #!/bin/bash
 
-echo "Version 0.6.5"
+clear
+echo "
+=========================================================================
+|       Fast VLESS XTLS Reality script by @MohsenHNSJ (Github)          |
+=========================================================================
+|                             Thanks to                                 |
+| @SasukeFreestyle (Github) for original tutorial => 'XTLS-Iran-Reality'|
+=========================================================================
+Check out the github page, contribute and suggest ideas/bugs/improvments.
 
+This script uses the xray 1.8.1 version!
+========================
+| Script version 0.6.8 |
+========================"
+
+echo "
+=========================================================================
+|       Updating repositories and installing the required packages      |
+=========================================================================
+"
 # We update 'apt' repository 
 # We need to install 'expect' package to switch user non-interactivly
 # We need to install 'unzip' package to extract zip files
+# We need to install 'openssl' package for generating short id
+# We need to install 'sshpass' package to switch user
+# We need to install 'qrencode' package for generating and showing the qr code
 # This installation must run without confirmation (-y)
 sudo apt update
-sudo apt -qq -y install expect unzip openssl sshpass
+sudo apt -qq -y install expect unzip openssl sshpass qrencode
 
 # We generate a random name for the new user
 choose() { echo ${1:RANDOM%${#1}:1} $RANDOM; }
@@ -30,6 +51,11 @@ password="$({ choose '123456789'
      done
  } | sort -R | awk '{printf "%s",$1}')"
 
+echo "
+=========================================================================
+|                  Adding a new user and configuring                    |
+=========================================================================
+"
 # We create a new user
 adduser --gecos "" --disabled-password $username
 
@@ -45,7 +71,14 @@ sudo mkdir /tempfolder
 echo $username > /tempfolder/tempusername.txt
 echo $password > /tempfolder/temppassword.txt
 
+# We transfer ownership of the folder to the new user, so the new user is able to delete the senstive information when it's no longer needed
 sudo chown -R $username /tempfolder/
+
+echo "
+=========================================================================
+|                       Optimizing server settings                      |
+=========================================================================
+"
 
 # We optimise 'sysctl.conf' file for better performance
 sudo echo "net.ipv4.tcp_keepalive_time = 90
@@ -68,6 +101,12 @@ root hard     nofile         655350" >> /etc/security/limits.conf
 # We apply the changes
 sudo sysctl -p
 
+echo "
+=========================================================================
+|                         Creating xray service                         |
+=========================================================================
+"
+
 # We create a service file
 sudo echo "[Unit]
 Description=XTLS Xray-Core a VMESS/VLESS Server
@@ -87,6 +126,11 @@ LimitNOFILE=1000000
 [Install]
 WantedBy=multi-user.target" > /etc/systemd/system/xray.service
 
+echo "
+=========================================================================
+|                           Switching user                              |
+=========================================================================
+"
 # We now switch to the new user
 sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
 
@@ -106,6 +150,12 @@ mkdir xray
 
 # We navigate to directory we created
 cd xray/
+
+echo "
+=========================================================================
+|                 Downloading xray and required files                   |
+=========================================================================
+"
 
 # We download latest geoasset file for blocking iranian websites
 wget https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat
@@ -147,6 +197,12 @@ publickey="${temp3#*Public key: }"
 # We generate a short id
 shortid=$(openssl rand -hex 8)
 
+echo "
+=========================================================================
+|                         Configuring xray                              |
+=========================================================================
+"
+
 # We restart the service and enable auto-start
 sudo systemctl daemon-reload && sudo systemctl enable xray
 
@@ -154,6 +210,7 @@ sudo systemctl daemon-reload && sudo systemctl enable xray
 configfile=/home/$tempusername/xray/config.json
 
 # We create 'config.json' file
+# We needed a slight change at line 2143 (1981 in original 'config.json' file) to properly enter double escape character (\\ => \\\\) inside the config file
 cat > $configfile << EOL
 {
    "log":{
@@ -2192,14 +2249,29 @@ cat > $configfile << EOL
 }
 EOL
 
+echo "
+=========================================================================
+|                           Starting xray                               |
+=========================================================================
+"
+
 # We now start xray
 sudo systemctl start xray && sudo systemctl status xray
 
 # We get vps ip
 vpsip=$(hostname -I | awk '{ print $1}')
 
+echo "
+=========================================================================
+|                                DONE                                   |
+=========================================================================
+"
+
+hostname=$('hostname')
+
 # We show connection information
 echo "
+REMARKS : $hostname
 ADDRESS : $vpsip
 PORT : 443
 ID : $generateduuid
@@ -2218,4 +2290,13 @@ LOCAL USERNAME : $tempusername
 LOCAL PASSWORD : $temppassword
 "
 
+echo "
+=========================================================================
+|                               QRCODE                                  |
+=========================================================================
+"
+
+serverconfig="vless://$generateduuid@$vpsip:443?security=reality&encryption=none&pbk=$publickey&headerType=none&fp=randomized&type=tcp&flow=xtls-rprx-vision&sni=www.google-analytics.com&sid=$shortid#$hostname"
+
 # We output a qrcode to ease connection
+qrencode -t ansiutf8 -l H $serverconfig
