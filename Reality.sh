@@ -12,16 +12,16 @@ Check out the github page, contribute and suggest ideas/bugs/improvments.
 
 This script uses the xray 1.8.1 version!
 ========================
-| Script version 0.8.3 |
+| Script version 0.8.4 |
 ========================"
 
 # We want to create a folder to store logs of each action for easier debug in case of an error
 # We first must check if it already exists or not
-# If it does exist, we must delete it and make a new one to store new log data
+# If it does exist, that means the core is already running and installation is not needed
 if [ -d "/FastReality" ]
 then
-    rm -r /FastReality
-    mkdir /FastReality
+    echo "FastReality is already configured! exiting to prevent breaking the core"
+    exit
 else
     mkdir /FastReality
 fi
