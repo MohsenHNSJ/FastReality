@@ -31,6 +31,7 @@ fi
 echo "
 =========================================================================
 |       Updating repositories and installing the required packages      |
+|              (This may take a few minutes, Please wait...)            |
 =========================================================================
 "
 # We update 'apt' repository 
