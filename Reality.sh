@@ -12,7 +12,7 @@ Check out the github page, contribute and suggest ideas/bugs/improvments.
 
 This script uses the xray 1.8.1 version!
 ========================
-| Script version 0.8.2 |
+| Script version 0.8.3 |
 ========================"
 
 # We want to create a folder to store logs of each action for easier debug in case of an error
@@ -31,14 +31,13 @@ echo "=========================================================================
 |              (This may take a few minutes, Please wait...)            |
 ========================================================================="
 # We update 'apt' repository 
-# We need to install 'expect' package to switch user non-interactivly
 # We need to install 'unzip' package to extract zip files
 # We need to install 'openssl' package for generating short id
 # We need to install 'sshpass' package to switch user
 # We need to install 'qrencode' package for generating and showing the qr code
 # This installation must run without confirmation (-y)
 sudo apt update &> /FastReality/1-apt-update-log.txt
-sudo apt -y install expect unzip openssl sshpass qrencode &> /FastReality/2-apt-install-log.txt
+sudo apt -y install unzip openssl sshpass qrencode &> /FastReality/2-apt-install-log.txt
 
 # We generate a random name for the new user
 choose() { echo ${1:RANDOM%${#1}:1} $RANDOM; }
@@ -2278,7 +2277,7 @@ REMARKS : $hostname
 ADDRESS : $vpsip
 PORT : 443
 ID : $generateduuid
-FLOW : stls-rprx-vision
+FLOW : xtls-rprx-vision
 ENCRYPTION : none
 NETWORK : tcp
 HEAD TYPE : none
