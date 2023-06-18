@@ -12,7 +12,7 @@ Check out the github page, contribute and suggest ideas/bugs/improvments.
 
 This script uses the xray 1.8.1 version!
 ========================
-| Script version 0.7.9 |
+| Script version 0.8.0 |
 ========================"
 
 # We want to create a folder to store logs of each action for easier debug in case of an error
@@ -143,7 +143,7 @@ echo "=========================================================================
 |                           Switching user                              |
 ========================================================================="
 # We now switch to the new user
-sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
+sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1 &> /FastReality/5-switch-user-log.txt
 
 # We read the saved credentials
 tempusername=$(</tempfolder/tempusername.txt)
@@ -167,13 +167,13 @@ echo "=========================================================================
 ========================================================================="
 
 # We download latest geoasset file for blocking iranian websites
-wget https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat &> /FastReality/5-download-geoassets-log.txt
+wget https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat &> /FastReality/6-download-geoassets-log.txt
 
 # We download xray 1.8.1
-wget https://github.com/XTLS/Xray-core/releases/download/v1.8.1/Xray-linux-64.zip &> /FastReality/6-download-xray-core-log.txt
+wget https://github.com/XTLS/Xray-core/releases/download/v1.8.1/Xray-linux-64.zip &> /FastReality/7-download-xray-core-log.txt
 
 # We extract xray core
-unzip Xray-linux-64.zip &> /FastReality/7-unzip-xray-core-log.txt
+unzip Xray-linux-64.zip &> /FastReality/8-unzip-xray-core-log.txt
 
 # We remove downloaded file
 rm Xray-linux-64.zip
@@ -2261,7 +2261,7 @@ echo "=========================================================================
 ========================================================================="
 
 # We now start xray
-sudo systemctl start xray && sudo systemctl status xray &> /FastReality/8-start-xray-core-log.txt
+sudo systemctl start xray && sudo systemctl status xray &> /FastReality/9-start-xray-core-log.txt
 
 # We get vps ip
 vpsip=$(hostname -I | awk '{ print $1}')
