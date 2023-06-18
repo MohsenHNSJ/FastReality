@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Version 0.6.0"
+echo "Version 0.6.1"
 
 # We update 'apt' repository 
 # We need to install 'expect' package to switch user non-interactivly
@@ -47,20 +47,6 @@ echo $password > /tempfolder/temppassword.txt
 
 sudo chown -R $username /tempfolder/
 
-# We now switch to the new user
-sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
-
-# We read the saved credentials
-tempusername=$(</tempfolder/tempusername.txt)
-temppassword=$(</tempfolder/temppassword.txt)
-
-# We delete senstive inforamtion
-rm /tempfolder/tempusername.txt
-rm /tempfolder/temppassword.txt
-
-# We provide password to 'sudo' command and open port 443
-echo $temppassword | sudo -S ufw allow 443
-
 # We optimise 'sysctl.conf' file for better performance
 sudo echo "net.ipv4.tcp_keepalive_time = 90
 net.ipv4.ip_local_port_range = 1024 65535
@@ -78,6 +64,20 @@ root soft     nproc          655350
 root hard     nproc          655350
 root soft     nofile         655350
 root hard     nofile         655350" >> /etc/security/limits.conf
+
+# We now switch to the new user
+sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
+
+# We read the saved credentials
+tempusername=$(</tempfolder/tempusername.txt)
+temppassword=$(</tempfolder/temppassword.txt)
+
+# We delete senstive inforamtion
+rm /tempfolder/tempusername.txt
+rm /tempfolder/temppassword.txt
+
+# We provide password to 'sudo' command and open port 443
+echo $temppassword | sudo -S ufw allow 443
 
 # We apply the changes
 sudo sysctl -p
