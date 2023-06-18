@@ -13,7 +13,7 @@ Check out the github page, contribute and suggest ideas/bugs/improvments.
 
 This script uses the xray 1.8.1 version!
 ========================
-| Script version 0.6.9 |
+| Script version 0.7.0 |
 ========================"
 
 # We create a folder to store logs of each action for easier debug in case of an error
@@ -31,8 +31,8 @@ echo "
 # We need to install 'sshpass' package to switch user
 # We need to install 'qrencode' package for generating and showing the qr code
 # This installation must run without confirmation (-y)
-sudo apt update &> /FastReality/1-apt-update-log.txt
-sudo apt -qq -y install expect unzip openssl sshpass qrencode &> /FastReality/2-apt-install-log.txt
+sudo apt update &> FastReality/1-apt-update-log.txt
+sudo apt -qq -y install expect unzip openssl sshpass qrencode &> FastReality/2-apt-install-log.txt
 
 # We generate a random name for the new user
 choose() { echo ${1:RANDOM%${#1}:1} $RANDOM; }
@@ -61,7 +61,7 @@ echo "
 =========================================================================
 "
 # We create a new user
-adduser --gecos "" --disabled-password $username &> /FastReality/3-create-user-log.txt
+adduser --gecos "" --disabled-password $username &> FastReality/3-create-user-log.txt
 
 # We set a password for the new user
 chpasswd <<<"$username:$password"
@@ -147,7 +147,7 @@ rm /tempfolder/tempusername.txt
 rm /tempfolder/temppassword.txt
 
 # We provide password to 'sudo' command and open port 443
-echo $temppassword | sudo -S ufw allow 443 &> /FastReality/4-config-ufw-log.txt
+echo $temppassword | sudo -S ufw allow 443 &> FastReality/4-config-ufw-log.txt
 
 # We create directory to hold xray files
 mkdir xray
@@ -162,13 +162,13 @@ echo "
 "
 
 # We download latest geoasset file for blocking iranian websites
-wget https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat &> /FastReality/5-download-geoassets-log.txt
+wget https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat &> FastReality/5-download-geoassets-log.txt
 
 # We download xray 1.8.1
-wget https://github.com/XTLS/Xray-core/releases/download/v1.8.1/Xray-linux-64.zip &> /FastReality/6-download-xray-core-log.txt
+wget https://github.com/XTLS/Xray-core/releases/download/v1.8.1/Xray-linux-64.zip &> FastReality/6-download-xray-core-log.txt
 
 # We extract xray core
-unzip Xray-linux-64.zip &> /FastReality/7-unzip-xray-core-log.txt
+unzip Xray-linux-64.zip &> FastReality/7-unzip-xray-core-log.txt
 
 # We remove downloaded file
 rm Xray-linux-64.zip
@@ -2260,7 +2260,7 @@ echo "
 "
 
 # We now start xray
-sudo systemctl start xray && sudo systemctl status xray &> /FastReality/8-start-xray-core-log.txt
+sudo systemctl start xray && sudo systemctl status xray &> FastReality/8-start-xray-core-log.txt
 
 # We get vps ip
 vpsip=$(hostname -I | awk '{ print $1}')
