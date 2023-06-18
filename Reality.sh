@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Version 0.6.1"
+echo "Version 0.6.2"
 
 # We update 'apt' repository 
 # We need to install 'expect' package to switch user non-interactivly
@@ -65,6 +65,25 @@ root hard     nproc          655350
 root soft     nofile         655350
 root hard     nofile         655350" >> /etc/security/limits.conf
 
+# We create a service file
+sudo echo "[Unit]
+Description=XTLS Xray-Core a VMESS/VLESS Server
+After=network.target nss-lookup.target
+[Service]
+User=$username
+Group=$username
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+ExecStart=/home/$username/xray/xray run -config /home/$username/xray/config.json
+Restart=on-failure
+RestartPreventExitStatus=23
+StandardOutput=journal
+LimitNPROC=100000
+LimitNOFILE=1000000
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/xray.service
+
 # We now switch to the new user
 sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
 
@@ -127,25 +146,6 @@ publickey="${temp3#*Public key: }"
 
 # We generate a short id
 shortid=$(openssl rand -hex 8)
-
-# We create a service file
-sudo echo "[Unit]
-Description=XTLS Xray-Core a VMESS/VLESS Server
-After=network.target nss-lookup.target
-[Service]
-User=$tempusername
-Group=$tempusername
-CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-NoNewPrivileges=true
-ExecStart=/home/$tempusername/xray/xray run -config /home/$tempusername/xray/config.json
-Restart=on-failure
-RestartPreventExitStatus=23
-StandardOutput=journal
-LimitNPROC=100000
-LimitNOFILE=1000000
-[Install]
-WantedBy=multi-user.target" > /etc/systemd/system/xray.service
 
 # We restart the service and enable auto-start
 sudo systemctl daemon-reload && sudo systemctl enable xray
