@@ -13,7 +13,7 @@ Check out the github page, contribute and suggest ideas/bugs/improvments.
 
 This script uses the xray 1.8.1 version!
 ========================
-| Script version 0.7.5 |
+| Script version 0.7.6 |
 ========================"
 
 # We want to create a folder to store logs of each action for easier debug in case of an error
@@ -39,7 +39,7 @@ echo "
 # We need to install 'qrencode' package for generating and showing the qr code
 # This installation must run without confirmation (-y)
 sudo apt update &> /FastReality/1-apt-update-log.txt
-sudo apt -qq -y install expect unzip openssl sshpass qrencode &> /FastReality/2-apt-install-log.txt
+sudo apt -y install expect unzip openssl sshpass qrencode &> /FastReality/2-apt-install-log.txt
 
 # We generate a random name for the new user
 choose() { echo ${1:RANDOM%${#1}:1} $RANDOM; }
