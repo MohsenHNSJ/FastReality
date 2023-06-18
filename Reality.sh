@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Version 0.6.4"
+echo "Version 0.6.5"
 
 # We update 'apt' repository 
 # We need to install 'expect' package to switch user non-interactivly
@@ -2135,7 +2135,7 @@ cat > $configfile << EOL
                "geosite:private",
                "ext:iran.dat:ir",
                "ext:iran.dat:other",
-               "regexp:.*\\.ir$",
+               "regexp:.*\\\\.ir$",
                "geosite:category-ir",
                "geosite:category-ir-gov",
                "geosite:category-ir-news",
