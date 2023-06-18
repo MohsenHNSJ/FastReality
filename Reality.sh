@@ -19,7 +19,7 @@ This script uses the xray 1.8.1 version!
 # We want to create a folder to store logs of each action for easier debug in case of an error
 # We first must check if it already exists or not
 # If it does exist, we must delete it and make a new one to store new log data
-if [ -d "/FastReality"]
+if [ -d "/FastReality" ]
 then
     rm -r /FastReality
 else
@@ -79,7 +79,7 @@ usermod -aG sudo $username
 # We save the new user credentials to use after switching user
 # We first must check if it already exists or not
 # If it does exist, we must delete it and make a new one to store new temporary data
-if [ -d "/tempfolder"]
+if [ -d "/tempfolder" ]
 then
     rm -r /tempfolder
 else
