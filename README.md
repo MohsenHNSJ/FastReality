@@ -22,4 +22,8 @@ sudo curl -s https://raw.githubusercontent.com/MohsenHNSJ/FastReality/master/Rea
  3. Found a bug? tell me and I will try to fix it asap!
  4. Any other recommendations? you are welcome to say it, I'm all ears.
 
+# Debugging:
+The script logs the outputs of commands in the `/FastReality` folder.
+Check it out in case of error
+
 ### Peace
