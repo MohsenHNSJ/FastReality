@@ -2,8 +2,7 @@
 
 clear
 
-echo "
-=========================================================================
+echo "=========================================================================
 |       Fast VLESS XTLS Reality script by @MohsenHNSJ (Github)          |
 =========================================================================
 |                             Thanks to                                 |
@@ -13,9 +12,8 @@ Check out the github page, contribute and suggest ideas/bugs/improvments.
 
 This script uses the xray 1.8.1 version!
 ========================
-| Script version 0.7.8 |
-========================
-"
+| Script version 0.7.9 |
+========================"
 
 # We want to create a folder to store logs of each action for easier debug in case of an error
 # We first must check if it already exists or not
@@ -28,12 +26,10 @@ else
     mkdir /FastReality
 fi
 
-echo "
-=========================================================================
+echo "=========================================================================
 |       Updating repositories and installing the required packages      |
 |              (This may take a few minutes, Please wait...)            |
-=========================================================================
-"
+========================================================================="
 # We update 'apt' repository 
 # We need to install 'expect' package to switch user non-interactivly
 # We need to install 'unzip' package to extract zip files
@@ -65,11 +61,9 @@ password="$({ choose '123456789'
      done
  } | sort -R | awk '{printf "%s",$1}')"
 
-echo "
-=========================================================================
+echo "=========================================================================
 |                  Adding a new user and configuring                    |
-=========================================================================
-"
+========================================================================="
 # We create a new user
 adduser --gecos "" --disabled-password $username &> /FastReality/3-create-user-log.txt
 
@@ -97,11 +91,9 @@ echo $password > /tempfolder/temppassword.txt
 sudo chown -R $username /tempfolder/
 sudo chown -R $username /FastReality/
 
-echo "
-=========================================================================
+echo "=========================================================================
 |                       Optimizing server settings                      |
-=========================================================================
-"
+========================================================================="
 
 # We optimise 'sysctl.conf' file for better performance
 sudo echo "net.ipv4.tcp_keepalive_time = 90
@@ -124,11 +116,9 @@ root hard     nofile         655350" >> /etc/security/limits.conf
 # We apply the changes
 sudo sysctl -p &> /FastReality/4-apply-server-optimizations-log.txt
 
-echo "
-=========================================================================
+echo "=========================================================================
 |                         Creating xray service                         |
-=========================================================================
-"
+========================================================================="
 
 # We create a service file
 sudo echo "[Unit]
@@ -149,11 +139,9 @@ LimitNOFILE=1000000
 [Install]
 WantedBy=multi-user.target" > /etc/systemd/system/xray.service
 
-echo "
-=========================================================================
+echo "=========================================================================
 |                           Switching user                              |
-=========================================================================
-"
+========================================================================="
 # We now switch to the new user
 sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
 
@@ -174,11 +162,9 @@ mkdir xray
 # We navigate to directory we created
 cd xray/
 
-echo "
-=========================================================================
+echo "=========================================================================
 |                 Downloading xray and required files                   |
-=========================================================================
-"
+========================================================================="
 
 # We download latest geoasset file for blocking iranian websites
 wget https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat &> /FastReality/5-download-geoassets-log.txt
@@ -220,11 +206,9 @@ publickey="${temp3#*Public key: }"
 # We generate a short id
 shortid=$(openssl rand -hex 8)
 
-echo "
-=========================================================================
+echo "=========================================================================
 |                         Configuring xray                              |
-=========================================================================
-"
+========================================================================="
 
 # We restart the service and enable auto-start
 sudo systemctl daemon-reload && sudo systemctl enable xray
@@ -2272,11 +2256,9 @@ cat > $configfile << EOL
 }
 EOL
 
-echo "
-=========================================================================
+echo "=========================================================================
 |                           Starting xray                               |
-=========================================================================
-"
+========================================================================="
 
 # We now start xray
 sudo systemctl start xray && sudo systemctl status xray &> /FastReality/8-start-xray-core-log.txt
@@ -2284,11 +2266,9 @@ sudo systemctl start xray && sudo systemctl status xray &> /FastReality/8-start-
 # We get vps ip
 vpsip=$(hostname -I | awk '{ print $1}')
 
-echo "
-=========================================================================
+echo "=========================================================================
 |                                DONE                                   |
-=========================================================================
-"
+========================================================================="
 
 hostname=$('hostname')
 
@@ -2313,11 +2293,9 @@ LOCAL USERNAME : $tempusername
 LOCAL PASSWORD : $temppassword
 "
 
-echo "
-=========================================================================
+echo "=========================================================================
 |                               QRCODE                                  |
-=========================================================================
-"
+========================================================================="
 
 serverconfig="vless://$generateduuid@$vpsip:443?security=reality&encryption=none&pbk=$publickey&headerType=none&fp=randomized&type=tcp&flow=xtls-rprx-vision&sni=www.google-analytics.com&sid=$shortid#$hostname"
 
