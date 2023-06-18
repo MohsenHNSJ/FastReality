@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Version 0.5.9"
+echo "Version 0.6.0"
 
 # We update 'apt' repository 
 # We need to install 'expect' package to switch user non-interactivly
@@ -45,7 +45,7 @@ sudo mkdir /tempfolder
 echo $username > /tempfolder/tempusername.txt
 echo $password > /tempfolder/temppassword.txt
 
-setfacl -R -m u:$username:rwx /tempfolder/
+sudo chown -R $username /tempfolder/
 
 # We now switch to the new user
 sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
