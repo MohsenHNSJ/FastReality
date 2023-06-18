@@ -2,6 +2,8 @@
 Fast VLESS XTLS Reality
 Optimized for Iran
 
+Thanks to: @SasukeFreestyle for the original tutorial
+
 # Requires:
 1. VPS with Linux OS outside of Iran and accessible by the user (Tests were done on Ubuntu 22.04)
 
