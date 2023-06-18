@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Version 0.6.2"
+echo "Version 0.6.3
 
 # We update 'apt' repository 
 # We need to install 'expect' package to switch user non-interactivly
@@ -65,6 +65,9 @@ root hard     nproc          655350
 root soft     nofile         655350
 root hard     nofile         655350" >> /etc/security/limits.conf
 
+# We apply the changes
+sudo sysctl -p
+
 # We create a service file
 sudo echo "[Unit]
 Description=XTLS Xray-Core a VMESS/VLESS Server
@@ -97,9 +100,6 @@ rm /tempfolder/temppassword.txt
 
 # We provide password to 'sudo' command and open port 443
 echo $temppassword | sudo -S ufw allow 443
-
-# We apply the changes
-sudo sysctl -p
 
 # We create directory to hold xray files
 mkdir xray
