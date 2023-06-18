@@ -13,7 +13,7 @@ Check out the github page, contribute and suggest ideas/bugs/improvments.
 
 This script uses the xray 1.8.1 version!
 ========================
-| Script version 0.7.6 |
+| Script version 0.7.7 |
 ========================"
 
 # We want to create a folder to store logs of each action for easier debug in case of an error
@@ -22,6 +22,7 @@ This script uses the xray 1.8.1 version!
 if [ -d "/FastReality" ]
 then
     rm -r /FastReality
+    mkdir /FastReality
 else
     mkdir /FastReality
 fi
@@ -82,6 +83,7 @@ usermod -aG sudo $username
 if [ -d "/tempfolder" ]
 then
     rm -r /tempfolder
+    sudo mkdir /tempfolder
 else
     sudo mkdir /tempfolder
 fi
