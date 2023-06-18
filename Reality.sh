@@ -12,7 +12,7 @@ Check out the github page, contribute and suggest ideas/bugs/improvments.
 
 This script uses the xray 1.8.1 version!
 ========================
-| Script version 0.8.0 |
+| Script version 0.8.1 |
 ========================"
 
 # We want to create a folder to store logs of each action for easier debug in case of an error
@@ -2300,4 +2300,4 @@ echo "=========================================================================
 serverconfig="vless://$generateduuid@$vpsip:443?security=reality&encryption=none&pbk=$publickey&headerType=none&fp=randomized&type=tcp&flow=xtls-rprx-vision&sni=www.google-analytics.com&sid=$shortid#$hostname"
 
 # We output a qrcode to ease connection
-qrencode -t ansiutf8 -l H $serverconfig
+qrencode -t ansiutf8 $serverconfig
