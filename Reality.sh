@@ -10,7 +10,7 @@ echo "=========================================================================
 =========================================================================
 Check out the github page, contribute and suggest ideas/bugs/improvments.
 
-This script uses the xray 1.8.1 version!
+This script uses the xray 1.8.3 version!
 ========================
 | Script version 0.8.5 |
 ========================"
@@ -168,8 +168,8 @@ echo "=========================================================================
 # We download latest geoasset file for blocking iranian websites
 wget https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat &> /FastReality/5-download-geoassets-log.txt
 
-# We download xray 1.8.1
-wget https://github.com/XTLS/Xray-core/releases/download/v1.8.1/Xray-linux-64.zip &> /FastReality/6-download-xray-core-log.txt
+# We download xray 1.8.3
+wget https://github.com/XTLS/Xray-core/releases/download/v1.8.3/Xray-linux-64.zip &> /FastReality/6-download-xray-core-log.txt
 
 # We extract xray core
 unzip Xray-linux-64.zip &> /FastReality/7-unzip-xray-core-log.txt
@@ -2200,14 +2200,6 @@ cat > $configfile << EOL
                "ext:iran.dat:other",
                "regexp:.*\\\\.ir$",
                "geosite:category-ir",
-               "geosite:category-ir-gov",
-               "geosite:category-ir-news",
-               "geosite:category-ir-bank",
-               "geosite:category-ir-tech",
-               "geosite:category-ir-travel",
-               "geosite:category-ir-shopping",
-               "geosite:category-ir-insurance",
-               "geosite:category-ir-scholar",
                "snapp",
                "digikala",
                "tapsi",
