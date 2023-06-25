@@ -1,6 +1,9 @@
 #!/bin/bash
 
+# We clear the console
 clear
+
+scriptversion="0.8.6"
 
 echo "=========================================================================
 |       Fast VLESS XTLS Reality script by @MohsenHNSJ (Github)          |
@@ -12,7 +15,7 @@ Check out the github page, contribute and suggest ideas/bugs/improvments.
 
 This script uses the xray 1.8.3 version!
 ========================
-| Script version 0.8.5 |
+| Script version $scriptversion |
 ========================"
 
 # We want to create a folder to store logs of each action for easier debug in case of an error
@@ -36,8 +39,8 @@ echo "=========================================================================
 # We need to install 'sshpass' package to switch user
 # We need to install 'qrencode' package for generating and showing the qr code
 # This installation must run without confirmation (-y)
-sudo apt update &> /FastReality/1-apt-update-log.txt
-sudo apt -y install unzip openssl sshpass qrencode &> /FastReality/2-apt-install-log.txt
+sudo apt update &> /FastReality/log.txt
+sudo apt -y install unzip openssl sshpass qrencode &>> /FastReality/log.txt
 
 # We generate a random name for the new user
 choose() { echo ${1:RANDOM%${#1}:1} $RANDOM; }
@@ -64,7 +67,7 @@ echo "=========================================================================
 |                  Adding a new user and configuring                    |
 ========================================================================="
 # We create a new user
-adduser --gecos "" --disabled-password $username &> /FastReality/3-create-user-log.txt
+adduser --gecos "" --disabled-password $username &>> /FastReality/log.txt
 
 # We set a password for the new user
 chpasswd <<<"$username:$password"
@@ -113,7 +116,7 @@ root soft     nofile         655350
 root hard     nofile         655350" >> /etc/security/limits.conf
 
 # We apply the changes
-sudo sysctl -p &> /FastReality/4-apply-server-optimizations-log.txt
+sudo sysctl -p &>> /FastReality/log.txt
 
 echo "=========================================================================
 |                         Creating xray service                         |
@@ -166,13 +169,13 @@ echo "=========================================================================
 ========================================================================="
 
 # We download latest geoasset file for blocking iranian websites
-wget https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat &> /FastReality/5-download-geoassets-log.txt
+wget https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat &>> /FastReality/log.txt
 
 # We download xray 1.8.3
-wget https://github.com/XTLS/Xray-core/releases/download/v1.8.3/Xray-linux-64.zip &> /FastReality/6-download-xray-core-log.txt
+wget https://github.com/XTLS/Xray-core/releases/download/v1.8.3/Xray-linux-64.zip &>> /FastReality/log.txt
 
 # We extract xray core
-unzip Xray-linux-64.zip &> /FastReality/7-unzip-xray-core-log.txt
+unzip Xray-linux-64.zip &>> /FastReality/log.txt
 
 # We remove downloaded file
 rm Xray-linux-64.zip
@@ -2251,8 +2254,8 @@ echo "=========================================================================
 |                           Starting xray                               |
 ========================================================================="
 
-# We now start xray
-sudo systemctl start xray && sudo systemctl status xray &> /FastReality/8-start-xray-core-log.txt
+# We now start xray service
+sudo systemctl start xray && sudo systemctl status xray &>> /FastReality/log.txt
 
 # We get vps ip
 vpsip=$(hostname -I | awk '{ print $1}')
@@ -2261,6 +2264,7 @@ echo "=========================================================================
 |                                DONE                                   |
 ========================================================================="
 
+# We vps name
 hostname=$('hostname')
 
 # We show connection information
@@ -2292,3 +2296,4 @@ serverconfig="vless://$generateduuid@$vpsip:443?security=reality&encryption=none
 
 # We output a qrcode to ease connection
 qrencode -t ansiutf8 $serverconfig
+
