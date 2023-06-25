@@ -3,7 +3,8 @@
 # We clear the console
 clear
 
-scriptversion="0.8.6"
+scriptversion="0.8.7"
+xrayversion="1.8.3"
 
 echo "=========================================================================
 |       Fast VLESS XTLS Reality script by @MohsenHNSJ (Github)          |
@@ -13,7 +14,7 @@ echo "=========================================================================
 =========================================================================
 Check out the github page, contribute and suggest ideas/bugs/improvments.
 
-This script uses the xray 1.8.3 version!
+This script uses the xray $xrayversion version!
 ========================
 | Script version $scriptversion |
 ========================"
@@ -23,7 +24,15 @@ This script uses the xray 1.8.3 version!
 # If it does exist, that means the core is already running and installation is not needed
 if [ -d "/FastReality" ]
 then
-    echo "FastReality is already configured! exiting to prevent breaking the core"
+    echo "FastReality is already configured! Cheking xray core version..."
+    installedxrayversion=$(cat "/FastReality/xrayversion.txt")
+    if [ "$installedxrayversion" == "$xrayversion" ]
+    then
+            echo "Xray core is up-to-date!"
+            echo "No action is needed, exiting..."
+    else 
+            echo "Xray core has updates! updating..."
+    fi
     exit
 else
     mkdir /FastReality
@@ -2296,4 +2305,7 @@ serverconfig="vless://$generateduuid@$vpsip:443?security=reality&encryption=none
 
 # We output a qrcode to ease connection
 qrencode -t ansiutf8 $serverconfig
+
+# We now save the xray core version we have installed
+echo "$xrayversion" > /FastReality/xrayversion.txt
 
