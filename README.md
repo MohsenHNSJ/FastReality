@@ -6,6 +6,7 @@ Thanks to: @SasukeFreestyle for the original tutorial
 
 # Requires:
 1. VPS with Linux OS outside of Iran and accessible by the user (Tests were done on Ubuntu 22.04)
+2. Optionally upgrade all your OS packages to latest version (for security and performance)
 
 # Usage:
 1. Run the following command in your VPS:
