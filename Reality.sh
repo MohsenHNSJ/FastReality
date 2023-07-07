@@ -3,7 +3,7 @@
 # We clear the console
 clear
 
-scriptversion="0.8.7"
+scriptversion="0.8.8"
 xrayversion="1.8.3"
 
 echo "=========================================================================
@@ -279,7 +279,8 @@ cat > $configfile << EOL
             "enabled":true,
             "destOverride":[
                "http",
-               "tls"
+               "tls",
+               "quic"
             ]
          }
       }
@@ -960,7 +961,6 @@ cat > $configfile << EOL
                "91.186.201.0/24",
                "91.186.216.0/23",
                "91.186.218.0/24",
-               "91.190.88.0/21",
                "91.194.6.0/24",
                "91.199.9.0/24",
                "91.199.18.0/24",
@@ -2209,7 +2209,6 @@ cat > $configfile << EOL
             "domain":[
                "geosite:private",
                "ext:iran.dat:ir",
-               "ext:iran.dat:other",
                "regexp:.*\\\\.ir$",
                "geosite:category-ir",
                "snapp",
