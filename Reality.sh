@@ -3,8 +3,8 @@
 # We clear the console
 clear
 
-scriptversion="0.8.9"
-xrayversion="1.8.4"
+scriptversion="0.9.0"
+xrayversion="1.8.6"
 
 echo "=========================================================================
 |       Fast VLESS XTLS Reality script by @MohsenHNSJ (Github)          |
@@ -180,8 +180,8 @@ echo "=========================================================================
 # We download latest geoasset file for blocking iranian websites
 wget https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat &>> /FastReality/log.txt
 
-# We download xray 1.8.3
-wget https://github.com/XTLS/Xray-core/releases/download/v1.8.4/Xray-linux-64.zip &>> /FastReality/log.txt
+# We download xray 1.8.6
+wget https://github.com/XTLS/Xray-core/releases/download/v1.8.6/Xray-linux-64.zip &>> /FastReality/log.txt
 
 # We extract xray core
 unzip Xray-linux-64.zip &>> /FastReality/log.txt
@@ -203,14 +203,14 @@ secret="$({ choose '123456789'
 # We generate a random uuid
 generateduuid=$(./xray uuid -i $secret)
 
-# We generate public and private keys and temporary save them
+# We generate public and private keys and temporarily save them
 temp=$(./xray x25519)
 
 # We extract private key
 temp2="${temp#Private key: }"
 privatekey=`echo "${temp2}" | head -1`
 
-# We extract public key
+# We extract the public key
 temp3="${temp2#$privatekey}"
 publickey="${temp3#*Public key: }"
 
@@ -224,11 +224,11 @@ echo "=========================================================================
 # We restart the service and enable auto-start
 sudo systemctl daemon-reload && sudo systemctl enable xray
 
-# We store path of 'config.json' file
+# We store the path of the 'config.json' file
 configfile=/home/$tempusername/xray/config.json
 
-# We create 'config.json' file
-# We needed a slight change at line 2143 (1981 in original 'config.json' file) to properly enter double escape character (\\ => \\\\) inside the config file
+# We create a 'config.json' file
+# We needed a slight change at line 2143 (1981 in the original 'config.json' file) to properly enter double escape character (\\ => \\\\) inside the config file
 cat > $configfile << EOL
 {
    "log":{
@@ -2265,34 +2265,34 @@ echo "=========================================================================
 # We now start xray service
 sudo systemctl start xray && sudo systemctl status xray &>> /FastReality/log.txt
 
-# We get vps ip
+# We get VPS IP
 vpsip=$(hostname -I | awk '{ print $1}')
 
 echo "=========================================================================
 |                                DONE                                   |
 ========================================================================="
 
-# We vps name
+# We VPS name
 hostname=$('hostname')
 
 # We show connection information
 echo "
-REMARKS : $hostname
-ADDRESS : $vpsip
-PORT : 443
-ID : $generateduuid
-FLOW : xtls-rprx-vision
-ENCRYPTION : none
-NETWORK : tcp
-HEAD TYPE : none
-TLS : reality
-SNI : www.google-analytics.com
-FINGERPRINT : randomized
-PUBLIC KEY : $publickey
-SHORT ID : $shortid
+REMARKS: $hostname
+ADDRESS: $vpsip
+PORT: 443
+ID: $generateduuid
+FLOW: xtls-rprx-vision
+ENCRYPTION: none
+NETWORK: TCP
+HEAD TYPE: none
+TLS: reality
+SNI: www.google-analytics.com
+FINGERPRINT: randomized
+PUBLIC KEY: $publickey
+SHORT ID: $shortid
 ==========
-PRIVATE KEY : $privatekey
-LOCAL USERNAME : $tempusername
+PRIVATE KEY: $privatekey
+LOCAL USERNAME: $tempusername
 LOCAL PASSWORD : $temppassword
 "
 
@@ -2302,7 +2302,7 @@ echo "=========================================================================
 
 serverconfig="vless://$generateduuid@$vpsip:443?security=reality&encryption=none&pbk=$publickey&headerType=none&fp=randomized&type=tcp&flow=xtls-rprx-vision&sni=www.google-analytics.com&sid=$shortid#$hostname"
 
-# We output a qrcode to ease connection
+# We output a QRCode to ease connection
 qrencode -t ansiutf8 $serverconfig
 
 # We now save the xray core version we have installed
