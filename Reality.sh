@@ -3,8 +3,8 @@
 # We clear the console
 clear
 
-scriptversion="0.9.0"
-xrayversion="1.8.6"
+scriptversion="0.9.1"
+xrayversion="1.8.7"
 
 echo "=========================================================================
 |       Fast VLESS XTLS Reality script by @MohsenHNSJ (Github)          |
@@ -181,7 +181,7 @@ echo "=========================================================================
 wget https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/iran.dat &>> /FastReality/log.txt
 
 # We download xray 1.8.6
-wget https://github.com/XTLS/Xray-core/releases/download/v1.8.6/Xray-linux-64.zip &>> /FastReality/log.txt
+wget https://github.com/XTLS/Xray-core/releases/download/v1.8.7/Xray-linux-64.zip &>> /FastReality/log.txt
 
 # We extract xray core
 unzip Xray-linux-64.zip &>> /FastReality/log.txt
