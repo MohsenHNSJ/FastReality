@@ -1,3 +1,5 @@
+# [Use TunlDigr instead!](https://github.com/MohsenHNSJ/TunlDigr)  
+
 [Click here to jump to English](https://github.com/MohsenHNSJ/FastReality#wipfastreality)
 # [در حال توسعه] FastReality
 اجرای VLESS XTLS Reality سریع
